@@ -5,15 +5,15 @@
 [general]
 name=GeoEASIN
 qgisMinimumVersion=3.0
-description=Data downloader from EASIN Geospatial Web Service 
+description=Data downloader from EASIN Geospatial Web Services
 version=0.1
 author=Patricio Soriano. Geoinnova
 email=patricio.soriano@geoinnova.org
 
 about=Data downloader from EASIN Geospatial Web Service
 
-tracker=http://bugs
-repository=http://repo
+tracker=https://github.com/geoinnova/geoeasin
+repository=https://github.com/geoinnova/geoeasin
 # End of mandatory metadata
 
 # Recommended items:
