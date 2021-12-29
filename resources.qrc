@@ -1,5 +1,0 @@
-<RCC>
-    <qresource prefix="/plugins/geo_easin" >
-        <file>icon.png</file>
-    </qresource>
-</RCC>

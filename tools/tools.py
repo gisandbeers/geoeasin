@@ -1,7 +1,6 @@
 # Maximum length of string after modifications.
 MAX = 1000;
 
-import re
 
 def replaceSpaces(string):
     """Replaces spaces with %20 in-place and returns

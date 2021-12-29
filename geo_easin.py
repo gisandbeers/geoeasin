@@ -24,12 +24,15 @@
 import os
 import os.path
 
+import resources
+
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
 from qgis.PyQt.QtWidgets import QAction
 
 # Import the code for the DockWidget
-from .geo_easin_dockwidget import GeoEASINDockWidget
+
+from .gui.geo_easin_dockwidget import GeoEASINDockWidget
 
 
 # Initialize Qt resources from file resources.py
@@ -170,15 +173,16 @@ class GeoEASIN:
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
 
-        icon_path = ':/plugins/geo_easin/icon.png'
+        icon_search = self.plugin_dir + '/img/icon.png'
+
         self.add_action(
-            icon_path,
+            icon_search,
             text=self.tr(u'Search by Species'),
             callback=self.run,
             parent=self.iface.mainWindow())
 
         self.add_action(
-            icon_path,
+            icon_search,
             text=self.tr(u'About'),
             callback=self.run,
             parent=self.iface.mainWindow())
@@ -216,7 +220,7 @@ class GeoEASIN:
             self.pluginIsActive = True
 
             #print "** STARTING GeoEASIN"
-            print('Start')
+
 
             # dockwidget may not exist if:
             #    first run of plugin
