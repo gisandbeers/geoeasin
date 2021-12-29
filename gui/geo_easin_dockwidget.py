@@ -30,7 +30,7 @@ from PyQt5.QtWidgets import QTreeWidgetItem
 from PyQt5.QtGui import QColor, QFont
 from qgis.PyQt import QtWidgets, uic
 from qgis.PyQt.QtCore import pyqtSignal
-from qgis.core import Qgis, QgsMessageLog, QgsVectorLayer, QgsGeometry, QgsFeature, QgsProject
+from qgis.core import Qgis, QgsMessageLog, QgsRasterLayer, QgsVectorLayer, QgsGeometry, QgsFeature, QgsProject
 
 from ..tools.tools import replaceSpaces
 
@@ -61,12 +61,20 @@ class GeoEASINDockWidget(QtWidgets.QDockWidget, FORM_CLASS):
         # Search text
         self.lineSpecieText.textChanged.connect(self.enable_button)
 
-        # Datos
+        # TreeData
         self.treeWidgetData.setColumnCount(2)
         self.treeWidgetData.setHeaderItem(QTreeWidgetItem(["Specie", ""]))
         self.treeWidgetData.setColumnWidth(0, 300)
         # self.treeWidgetData.itemDoubleClicked.connect(self.create_layer)
         self.treeWidgetData.itemDoubleClicked.connect(partial(self.printItem))
+
+        # Tools
+        self.btnBaseMapOSM.clicked.connect(self.addTileLayer)
+        self.btnBaseMapCountries.clicked.connect(self.addVectorLayer)
+
+        # Tab
+
+        self.tabWidget.setCurrentIndex(0)
 
     def closeEvent(self, event):
         self.closingPlugin.emit()
@@ -280,3 +288,29 @@ class GeoEASINDockWidget(QtWidgets.QDockWidget, FORM_CLASS):
                 name_layer = baseNode.text(0)
                 id = baseNode.text(1).split(":")[1].strip()
                 self.create_layer( id, name_layer)
+
+    def addTileLayer(self):
+        urlWithParams = 'type=xyz&url=https://a.tile.openstreetmap.org/%7Bz%7D/%7Bx%7D/%7By%7D.png&zmax=19&zmin=0&crs=EPSG3857'
+        rlayer = QgsRasterLayer(urlWithParams, 'OpenStreetMap', 'wms')
+
+        if rlayer.isValid():
+            QgsProject.instance().addMapLayer(rlayer)
+        else:
+            print('invalid layer')
+
+    def addVectorLayer(self):
+        # get the path to the shapefile e.g. /home/project/data/ports.shp
+        plugin_dir = os.path.dirname(__file__)
+
+        layer = "data/ne_10m_admin_0_countries/ne_10m_admin_0_countries.shp"
+
+        path_layer = os.path.join(plugin_dir, layer)
+
+        print(path_layer)
+
+        vlayer = QgsVectorLayer(path_layer, "ne_10m_admin_0_countries", "ogr")
+        if not vlayer.isValid():
+            print("Layer failed to load!")
+        else:
+            QgsProject.instance().addMapLayer(vlayer)
+

@@ -34,6 +34,11 @@ from qgis.PyQt.QtWidgets import QAction
 
 from .gui.geo_easin_dockwidget import GeoEASINDockWidget
 
+# Import processing libraries
+
+from qgis.core import QgsApplication
+from .processing_provider.provider import Provider
+
 
 # Initialize Qt resources from file resources.py
 
@@ -78,6 +83,8 @@ class GeoEASIN:
 
         self.pluginIsActive = False
         self.dockwidget = None
+
+        self.provider = None
 
 
     # noinspection PyMethodMayBeStatic
@@ -169,6 +176,9 @@ class GeoEASIN:
 
         return action
 
+    def initProcessing(self):
+        self.provider = Provider()
+        QgsApplication.processingRegistry().addProvider(self.provider)
 
     def initGui(self):
         """Create the menu entries and toolbar icons inside the QGIS GUI."""
@@ -186,6 +196,8 @@ class GeoEASIN:
             text=self.tr(u'About'),
             callback=self.run,
             parent=self.iface.mainWindow())
+
+        self.initProcessing()
 
     #--------------------------------------------------------------------------
 
@@ -210,6 +222,8 @@ class GeoEASIN:
             self.iface.removeToolBarIcon(action)
         # remove the toolbar
         del self.toolbar
+
+        QgsApplication.processingRegistry().removeProvider(self.provider)
 
     #--------------------------------------------------------------------------
 
