@@ -1,5 +1,8 @@
 from qgis.core import QgsProcessingProvider
 
+from PyQt5.QtGui import QIcon
+from os import path
+
 from .example_processing_algorithm import ExampleProcessingAlgorithm
 from .union import UnirInformacionPas
 
@@ -30,3 +33,9 @@ class Provider(QgsProcessingProvider):
         the Processing toolbox.
         """
         return QgsProcessingProvider.icon(self)
+
+    def icon(self):
+        """Should return a QIcon which is used for your provider inside
+        the Processing toolbox.
+        """
+        return QIcon(path.dirname(__file__) + '/img/icon.png')
