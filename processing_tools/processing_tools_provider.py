@@ -5,14 +5,14 @@ from os import path
 
 
 from .union import UnirInformacionPas
-from .Prueba import CalculateWildlifeCorridor
+from .Prueba import CalculateWildlifeCorridor   # TEXTO INCLUIDO
     
 class ProcessingToolsProvider(QgsProcessingProvider):
 
     def loadAlgorithms(self, *args, **kwargs):
         # self.addAlgorithm(ExampleProcessingAlgorithm())
         self.addAlgorithm(UnirInformacionPas())
-        self.addAlgorithm(importCalculateWildlifeCorridor())
+        self.addAlgorithm(importCalculateWildlifeCorridor())   # TEXTO INCLUIDO
     def id(self, *args, **kwargs):
         """The ID of your plugin, used for identifying the provider.
 
