@@ -1,6 +1,35 @@
-# Maximum length of string after modifications.
-MAX = 1000;
 
+
+import os
+import sys
+
+from urllib import parse
+urlparse = parse
+from urllib.request import urlopen, URLError
+import configparser
+
+
+def get_file_dir(filename):
+    """
+
+    @param filename:
+    @return:
+    """
+    if PY2:
+        return os.path.dirname(filename).decode(sys.getfilesystemencoding())
+    else:
+        return os.path.dirname(filename)
+
+
+def getPath(n):
+    """Return the folder path
+    @param n: level
+    @return: string
+    """
+
+    return lambda _path, n: os.sep.join(_path.split(os.sep)[:-n])
+
+MAX = 1000 # Maximum length of string after modifications.
 
 def replaceSpaces(string):
     """Replaces spaces with %20 in-place and returns

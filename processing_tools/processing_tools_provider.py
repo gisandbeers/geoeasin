@@ -3,10 +3,10 @@ from qgis.core import QgsProcessingProvider
 from PyQt5.QtGui import QIcon
 from os import path
 
-from .example_processing_algorithm import ExampleProcessingAlgorithm
+
 from .union import UnirInformacionPas
 
-class Provider(QgsProcessingProvider):
+class ProcessingToolsProvider(QgsProcessingProvider):
 
     def loadAlgorithms(self, *args, **kwargs):
         # self.addAlgorithm(ExampleProcessingAlgorithm())

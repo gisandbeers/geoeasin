@@ -3,9 +3,12 @@
 """
 Model exported as python.
 Name : Unir informacion país
-Group : EASIN
+Group : GeoEASIN
 With QGIS : 32002
 """
+
+__author__ = 'Patricio Soriano patricio.sorianno@geoinnova.org'
+__date__ = '2021-12-29'
 
 from qgis.PyQt.QtCore import QCoreApplication
 

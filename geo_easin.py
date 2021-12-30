@@ -24,7 +24,8 @@
 import os
 import os.path
 
-import resources
+
+# import resources
 
 from qgis.PyQt.QtCore import QSettings, QTranslator, QCoreApplication, Qt
 from qgis.PyQt.QtGui import QIcon
@@ -33,11 +34,12 @@ from qgis.PyQt.QtWidgets import QAction
 # Import the code for the DockWidget
 
 from .gui.geo_easin_dockwidget import GeoEASINDockWidget
+from .gui.about_dialog import  AboutDialog
 
 # Import processing libraries
 
 from qgis.core import QgsApplication
-from .processing_provider.provider import Provider
+from .processing_tools.processing_tools_provider import ProcessingToolsProvider
 
 
 # Initialize Qt resources from file resources.py
@@ -55,6 +57,7 @@ class GeoEASIN:
         :type iface: QgsInterface
         """
         # Save reference to the QGIS interface
+        self.dlgAbout = AboutDialog()
         self.iface = iface
 
         # initialize plugin directory
@@ -85,6 +88,8 @@ class GeoEASIN:
         self.dockwidget = None
 
         self.provider = None
+
+        self.first_start = None
 
 
     # noinspection PyMethodMayBeStatic
@@ -177,7 +182,7 @@ class GeoEASIN:
         return action
 
     def initProcessing(self):
-        self.provider = Provider()
+        self.provider = ProcessingToolsProvider()
         QgsApplication.processingRegistry().addProvider(self.provider)
 
     def initGui(self):
@@ -187,14 +192,14 @@ class GeoEASIN:
 
         self.add_action(
             icon_search,
-            text=self.tr(u'Search by Species'),
-            callback=self.run,
+            text=self.tr(u'&Search by Species'),
+            callback=self.open_dock_search,
             parent=self.iface.mainWindow())
 
         self.add_action(
             icon_search,
-            text=self.tr(u'About'),
-            callback=self.run,
+            text=self.tr(u'&About'),
+            callback=self.open_dlg_about,
             parent=self.iface.mainWindow())
 
         self.initProcessing()
@@ -227,7 +232,7 @@ class GeoEASIN:
 
     #--------------------------------------------------------------------------
 
-    def run(self):
+    def open_dock_search(self):
         """Run method that loads and starts the plugin"""
 
         if not self.pluginIsActive:
@@ -251,3 +256,20 @@ class GeoEASIN:
             self.iface.addDockWidget(Qt.RightDockWidgetArea, self.dockwidget)
             self.dockwidget.show()
 
+    def open_dlg_about(self):
+        """Run method that performs all the real work"""
+
+        # Create the dialog with elements (after translation) and keep reference
+        # Only create GUI ONCE in callback, so that it will only load when the plugin is started
+        if self.first_start == True:
+            self.first_start = False
+
+        # show the dialog
+        self.dlgAbout.show()
+        # Run the dialog event loop
+        result = self.dlgAbout.exec_()
+        # See if OK was pressed
+        if result:
+            # Do something useful here - delete the line containing pass and
+            # substitute with your code.
+            pass
