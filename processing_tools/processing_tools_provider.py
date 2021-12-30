@@ -12,7 +12,7 @@ class ProcessingToolsProvider(QgsProcessingProvider):
     def loadAlgorithms(self, *args, **kwargs):
         # self.addAlgorithm(ExampleProcessingAlgorithm())
         self.addAlgorithm(UnirInformacionPas())
-        self.addAlgorithm(importCalculateWildlifeCorridor())   # TEXTO INCLUIDO
+        self.addAlgorithm(CalculateWildlifeCorridor())   # TEXTO INCLUIDO
     def id(self, *args, **kwargs):
         """The ID of your plugin, used for identifying the provider.
 
